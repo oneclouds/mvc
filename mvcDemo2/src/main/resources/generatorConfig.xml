@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<context id="testTables" targetRuntime="MyBatis3">
+		<commentGenerator>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		
+		<!-- mysql的配置方式 -->
+		<!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/shopping?useUnicode=&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC" userId="root"
+			password="1">
+		</jdbcConnection>
+		<!-- oracle的配置方式 -->
+		<!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+		<!-- <jdbcConnection driverClass="oracle.jdbc.OracleDriver"
+			connectionURL="jdbc:oracle:thin:@127.0.0.1:1521:yycg" 
+			userId="yycg"
+			password="yycg">
+		</jdbcConnection> -->
+
+		<!-- 设置特殊的数据库表和Java类的转换对应类型 -->
+		<!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和 
+			NUMERIC 类型解析为java.math.BigDecimal -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!--
+			 targetPackage     指定生成的model生成所在的包名
+            targetProject     指定在该项目下所在的路径
+		-->
+		<!-- 生成Po类的位置(即Model,与数据库表对应的实体类) -->
+		<!-- targetProject可以写成此种形式   D:\generator\src -->
+		<javaModelGenerator targetPackage="com.ssm.generatePo"
+			targetProject="./src/main/java">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+			<!-- 从数据库返回的值被清理前后的空格 -->
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		
+		<!-- Mapper映射文件生成的位置(即xxx.xml) -->
+		<sqlMapGenerator targetPackage="com.ssm.generateMappers"
+			targetProject="./src/main/java">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+		
+		<!-- Mapper接口文件生成的位置(即SqlMap,Dao接口) -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.ssm.generateMappers"
+			targetProject="./src/main/java">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+		
+		<!-- 指定数据库表,可以指定多个表 -->
+		<!-- 配置表信息 -->	
+		<!-- domainObjectName 可以指定生成实体类的名字, 默认按照大驼峰规则生成实体类的名字,即首字母大写 -->
+		<!-- enableCountByExample:是否生成enableCountByExample方法,Example为扩展类,继承于生成的Model,用于一些扩展处理的字段 -->
+		<!-- enableDeleteByExample,enableSelectByExample,enableUpdateByExample同理-->
+		<!-- 去除 enableCountByExample,enableDeleteByExample,enableSelectByExample,enableUpdateByExample四个函数,可以取消生成扩展类Example-->
+
+		<table tableName="items"></table>
+		<table tableName="orders"></table>
+		<table tableName="orderdetail"></table>
+		<table tableName="user"></table>
+		<!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample
+				是否生成 example类   -->
+		<!--<table schema="" tableName="sys_user"></table>-->
+
+		<!-- 有些表的字段需要指定java类型
+		 <table schema="" tableName="">
+			<columnOverride column="" javaType="" />
+		</table> -->
+	</context>
+</generatorConfiguration>

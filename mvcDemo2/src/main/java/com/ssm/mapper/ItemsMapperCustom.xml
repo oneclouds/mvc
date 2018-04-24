@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ssm.mapper.ItemsMapperCustom">
+
+    <!--其实最主要的就是定义输入参数的类型为包装对象，输出对象时继承类-->
+
+    <!--定义商品查询的sql片段，就是商品查询条件-->
+    <sql id="query_items_where">
+        <!--使用动态sql，通过if判断，满嘴条件进行sql拼装-->
+        <!--商品查询条件通过ItemsQueryVo包装对象中itemsCustom属性传递-->
+        <if test="itemsCustom!=null">  <!--这里属性直接写属性名即可，前面不要加类名-->
+            <if test="itemsCustom.name!=null and itemsCustom.name!=''">
+                a.name like '%${itemsCustom.name}%'
+            </if>
+        </if>
+    </sql>
+
+    <!--商品列表查询-->
+    <!--parameterType传入包装对象（包装了查询条件）
+        resultType建议使用扩展对象
+    -->
+    <select id="findItemList" parameterType="com.ssm.po.ItemsQueryVo" resultType="com.ssm.po.ItemsCustom"><!--这里返回Items扩展类-->
+        SELECT a.* FROM items a
+        <where>   <!--这里就是sql动态代理：where标签就是指where-->
+              <include refid="query_items_where"></include>  <!--这里是sql片段-->
+        </where>
+    </select>
+    
+    
+</mapper>
